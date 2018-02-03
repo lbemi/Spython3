@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" prefix="" lang="zh-CN" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://blog.topspeedsnail.com/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/js/html5.js"></script>
+	<![endif]-->
+	
+
+
+
+<!-- [BEGIN] Metadata added via 'All Meta Tags' plugin by Arthur Gareginyan (https://www.arthurgareginyan.com) -->
+
+<meta name='google-site-verification' content='3uZoHlquyidBwY8BNW0VO-jun5Yw1TuUAfBFAJOYt9M' />
+<meta name='msvalidate.01' content='2295DA5FC9E645F0F83821A962CAA471' />
+<meta name='author' content='斗大的熊猫' />
+<meta name='designer' content='斗大的熊猫' />
+<meta name='contact' content='tianshuai2012@gmail.com' />
+<meta name='copyright' content='Copyright (c) 2017 斗大的熊猫.' />
+<!-- [END] Metadata added via 'All Meta Tags' plugin by Arthur Gareginyan (https://www.arthurgareginyan.com) -->
+
+<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>CentOS 7 安装配置 PPTP VPN服务端 &#8211; WTF Daily Blog</title>
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="WTF Daily Blog &raquo; Feed" href="http://blog.topspeedsnail.com/feed" />
+<link rel="alternate" type="application/rss+xml" title="WTF Daily Blog &raquo; 评论Feed" href="http://blog.topspeedsnail.com/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="WTF Daily Blog &raquo; CentOS 7 安装配置 PPTP VPN服务端评论Feed" href="http://blog.topspeedsnail.com/archives/8492/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/blog.topspeedsnail.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.9"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.7.9' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-sublime-text-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/crayon-syntax-highlighter/themes/sublime-text/sublime-text.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-monaco-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/crayon-syntax-highlighter/fonts/monaco.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='juiz_sps_styles-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/juiz-social-post-sharer/css/juiz-social-post-sharer-3.min.css?ver=1.4.6' type='text/css' media='all' />
+<link rel='stylesheet' id='front-css-yuzo_related_post-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/yuzo-related-post/assets/css/style.css?ver=5.12.68' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/genericons/genericons.css?ver=3.2' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfifteen-style-css'  href='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/style.css?ver=4.7.9' type='text/css' media='all' />
+<style id='twentyfifteen-style-inline-css' type='text/css'>
+	/* Color Scheme */
+
+	/* Background Color */
+	body {
+		background-color: #674970;
+	}
+
+	/* Sidebar Background Color */
+	body:before,
+	.site-header {
+		background-color: #2e2256;
+	}
+
+	/* Box Background Color */
+	.post-navigation,
+	.pagination,
+	.secondary,
+	.site-footer,
+	.hentry,
+	.page-header,
+	.page-content,
+	.comments-area,
+	.widecolumn {
+		background-color: #ffffff;
+	}
+
+	/* Box Background Color */
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.pagination .prev,
+	.pagination .next,
+	.widget_calendar tbody a,
+	.widget_calendar tbody a:hover,
+	.widget_calendar tbody a:focus,
+	.page-links a,
+	.page-links a:hover,
+	.page-links a:focus,
+	.sticky-post {
+		color: #ffffff;
+	}
+
+	/* Main Text Color */
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.pagination .prev,
+	.pagination .next,
+	.widget_calendar tbody a,
+	.page-links a,
+	.sticky-post {
+		background-color: #2e2256;
+	}
+
+	/* Main Text Color */
+	body,
+	blockquote cite,
+	blockquote small,
+	a,
+	.dropdown-toggle:after,
+	.image-navigation a:hover,
+	.image-navigation a:focus,
+	.comment-navigation a:hover,
+	.comment-navigation a:focus,
+	.widget-title,
+	.entry-footer a:hover,
+	.entry-footer a:focus,
+	.comment-metadata a:hover,
+	.comment-metadata a:focus,
+	.pingback .edit-link a:hover,
+	.pingback .edit-link a:focus,
+	.comment-list .reply a:hover,
+	.comment-list .reply a:focus,
+	.site-info a:hover,
+	.site-info a:focus {
+		color: #2e2256;
+	}
+
+	/* Main Text Color */
+	.entry-content a,
+	.entry-summary a,
+	.page-content a,
+	.comment-content a,
+	.pingback .comment-body > a,
+	.author-description a,
+	.taxonomy-description a,
+	.textwidget a,
+	.entry-footer a:hover,
+	.comment-metadata a:hover,
+	.pingback .edit-link a:hover,
+	.comment-list .reply a:hover,
+	.site-info a:hover {
+		border-color: #2e2256;
+	}
+
+	/* Secondary Text Color */
+	button:hover,
+	button:focus,
+	input[type="button"]:hover,
+	input[type="button"]:focus,
+	input[type="reset"]:hover,
+	input[type="reset"]:focus,
+	input[type="submit"]:hover,
+	input[type="submit"]:focus,
+	.pagination .prev:hover,
+	.pagination .prev:focus,
+	.pagination .next:hover,
+	.pagination .next:focus,
+	.widget_calendar tbody a:hover,
+	.widget_calendar tbody a:focus,
+	.page-links a:hover,
+	.page-links a:focus {
+		background-color: #2e2256; /* Fallback for IE7 and IE8 */
+		background-color: rgba( 46, 34, 86, 0.7);
+	}
+
+	/* Secondary Text Color */
+	blockquote,
+	a:hover,
+	a:focus,
+	.main-navigation .menu-item-description,
+	.post-navigation .meta-nav,
+	.post-navigation a:hover .post-title,
+	.post-navigation a:focus .post-title,
+	.image-navigation,
+	.image-navigation a,
+	.comment-navigation,
+	.comment-navigation a,
+	.widget,
+	.author-heading,
+	.entry-footer,
+	.entry-footer a,
+	.taxonomy-description,
+	.page-links > .page-links-title,
+	.entry-caption,
+	.comment-author,
+	.comment-metadata,
+	.comment-metadata a,
+	.pingback .edit-link,
+	.pingback .edit-link a,
+	.post-password-form label,
+	.comment-form label,
+	.comment-notes,
+	.comment-awaiting-moderation,
+	.logged-in-as,
+	.form-allowed-tags,
+	.no-comments,
+	.site-info,
+	.site-info a,
+	.wp-caption-text,
+	.gallery-caption,
+	.comment-list .reply a,
+	.widecolumn label,
+	.widecolumn .mu_register label {
+		color: #2e2256; /* Fallback for IE7 and IE8 */
+		color: rgba( 46, 34, 86, 0.7);
+	}
+
+	/* Secondary Text Color */
+	blockquote,
+	.logged-in-as a:hover,
+	.comment-author a:hover {
+		border-color: #2e2256; /* Fallback for IE7 and IE8 */
+		border-color: rgba( 46, 34, 86, 0.7);
+	}
+
+	/* Border Color */
+	hr,
+	.dropdown-toggle:hover,
+	.dropdown-toggle:focus {
+		background-color: #2e2256; /* Fallback for IE7 and IE8 */
+		background-color: rgba( 46, 34, 86, 0.1);
+	}
+
+	/* Border Color */
+	pre,
+	abbr[title],
+	table,
+	th,
+	td,
+	input,
+	textarea,
+	.main-navigation ul,
+	.main-navigation li,
+	.post-navigation,
+	.post-navigation div + div,
+	.pagination,
+	.comment-navigation,
+	.widget li,
+	.widget_categories .children,
+	.widget_nav_menu .sub-menu,
+	.widget_pages .children,
+	.site-header,
+	.site-footer,
+	.hentry + .hentry,
+	.author-info,
+	.entry-content .page-links a,
+	.page-links > span,
+	.page-header,
+	.comments-area,
+	.comment-list + .comment-respond,
+	.comment-list article,
+	.comment-list .pingback,
+	.comment-list .trackback,
+	.comment-list .reply a,
+	.no-comments {
+		border-color: #2e2256; /* Fallback for IE7 and IE8 */
+		border-color: rgba( 46, 34, 86, 0.1);
+	}
+
+	/* Border Focus Color */
+	a:focus,
+	button:focus,
+	input:focus {
+		outline-color: #2e2256; /* Fallback for IE7 and IE8 */
+		outline-color: rgba( 46, 34, 86, 0.3);
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: #2e2256; /* Fallback for IE7 and IE8 */
+		border-color: rgba( 46, 34, 86, 0.3);
+	}
+
+	/* Sidebar Link Color */
+	.secondary-toggle:before {
+		color: #ffffff;
+	}
+
+	.site-title a,
+	.site-description {
+		color: #ffffff;
+	}
+
+	/* Sidebar Text Color */
+	.site-title a:hover,
+	.site-title a:focus {
+		color: rgba( 255, 255, 255, 0.7);
+	}
+
+	/* Sidebar Border Color */
+	.secondary-toggle {
+		border-color: #ffffff; /* Fallback for IE7 and IE8 */
+		border-color: rgba( 255, 255, 255, 0.1);
+	}
+
+	/* Sidebar Border Focus Color */
+	.secondary-toggle:hover,
+	.secondary-toggle:focus {
+		border-color: #ffffff; /* Fallback for IE7 and IE8 */
+		border-color: rgba( 255, 255, 255, 0.3);
+	}
+
+	.site-title a {
+		outline-color: #ffffff; /* Fallback for IE7 and IE8 */
+		outline-color: rgba( 255, 255, 255, 0.3);
+	}
+
+	/* Meta Background Color */
+	.entry-footer {
+		background-color: #f1f1f1;
+	}
+
+	@media screen and (min-width: 38.75em) {
+		/* Main Text Color */
+		.page-header {
+			border-color: #2e2256;
+		}
+	}
+
+	@media screen and (min-width: 59.6875em) {
+		/* Make sure its transparent on desktop */
+		.site-header,
+		.secondary {
+			background-color: transparent;
+		}
+
+		/* Sidebar Background Color */
+		.widget button,
+		.widget input[type="button"],
+		.widget input[type="reset"],
+		.widget input[type="submit"],
+		.widget_calendar tbody a,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus {
+			color: #2e2256;
+		}
+
+		/* Sidebar Link Color */
+		.secondary a,
+		.dropdown-toggle:after,
+		.widget-title,
+		.widget blockquote cite,
+		.widget blockquote small {
+			color: #ffffff;
+		}
+
+		.widget button,
+		.widget input[type="button"],
+		.widget input[type="reset"],
+		.widget input[type="submit"],
+		.widget_calendar tbody a {
+			background-color: #ffffff;
+		}
+
+		.textwidget a {
+			border-color: #ffffff;
+		}
+
+		/* Sidebar Text Color */
+		.secondary a:hover,
+		.secondary a:focus,
+		.main-navigation .menu-item-description,
+		.widget,
+		.widget blockquote,
+		.widget .wp-caption-text,
+		.widget .gallery-caption {
+			color: rgba( 255, 255, 255, 0.7);
+		}
+
+		.widget button:hover,
+		.widget button:focus,
+		.widget input[type="button"]:hover,
+		.widget input[type="button"]:focus,
+		.widget input[type="reset"]:hover,
+		.widget input[type="reset"]:focus,
+		.widget input[type="submit"]:hover,
+		.widget input[type="submit"]:focus,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus {
+			background-color: rgba( 255, 255, 255, 0.7);
+		}
+
+		.widget blockquote {
+			border-color: rgba( 255, 255, 255, 0.7);
+		}
+
+		/* Sidebar Border Color */
+		.main-navigation ul,
+		.main-navigation li,
+		.widget input,
+		.widget textarea,
+		.widget table,
+		.widget th,
+		.widget td,
+		.widget pre,
+		.widget li,
+		.widget_categories .children,
+		.widget_nav_menu .sub-menu,
+		.widget_pages .children,
+		.widget abbr[title] {
+			border-color: rgba( 255, 255, 255, 0.1);
+		}
+
+		.dropdown-toggle:hover,
+		.dropdown-toggle:focus,
+		.widget hr {
+			background-color: rgba( 255, 255, 255, 0.1);
+		}
+
+		.widget input:focus,
+		.widget textarea:focus {
+			border-color: rgba( 255, 255, 255, 0.3);
+		}
+
+		.sidebar a:focus,
+		.dropdown-toggle:focus {
+			outline-color: rgba( 255, 255, 255, 0.3);
+		}
+	}
+</style>
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyfifteen-ie-css'  href='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/css/ie.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentyfifteen-ie7-css'  href='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/css/ie7.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='tablepress-default-css'  href='http://blog.topspeedsnail.com/wp-content/plugins/tablepress/css/default.min.css?ver=1.7' type='text/css' media='all' />
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/blog.topspeedsnail.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+<link rel='https://api.w.org/' href='http://blog.topspeedsnail.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.topspeedsnail.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.topspeedsnail.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Ubuntu 16.04 安装 Avidemux－视频编辑器' href='http://blog.topspeedsnail.com/archives/8490' />
+<link rel='next' title='Ubuntu 安装 Minitube油管客户端' href='http://blog.topspeedsnail.com/archives/8501' />
+<meta name="generator" content="WordPress 4.7.9" />
+<link rel="canonical" href="http://blog.topspeedsnail.com/archives/8492" />
+<link rel='shortlink' href='http://blog.topspeedsnail.com/?p=8492' />
+<link rel="alternate" type="application/json+oembed" href="http://blog.topspeedsnail.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fblog.topspeedsnail.com%2Farchives%2F8492" />
+<link rel="alternate" type="text/xml+oembed" href="http://blog.topspeedsnail.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fblog.topspeedsnail.com%2Farchives%2F8492&#038;format=xml" />
+    <script>
+    function hasWKGoogleAnalyticsCookie() {
+      return (new RegExp('wp_wk_ga_untrack_' + document.location.hostname) ).test(document.cookie);
+    }
+    </script>
+    
+      <script>
+      if( !hasWKGoogleAnalyticsCookie() ) {
+        //Google Analytics
+  			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    		ga('create', 'UA-72801412-1', 'auto');
+
+          
+        ga('send', 'pageview');
+      }
+      </script>
+      
+        		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		</head>
+
+<body class="post-template-default single single-post postid-8492 single-format-standard">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">跳至内容</a>
+
+	<div id="sidebar" class="sidebar">
+		<header id="masthead" class="site-header" role="banner">
+			<div class="site-branding">
+										<p class="site-title"><a href="http://blog.topspeedsnail.com/" rel="home">WTF Daily Blog</a></p>
+											<p class="site-description">斗大的熊猫</p>
+									<button class="secondary-toggle">菜单和挂件</button>
+			</div><!-- .site-branding -->
+		</header><!-- .site-header -->
+
+			<div id="secondary" class="secondary">
+
+		
+		
+					<div id="widget-area" class="widget-area" role="complementary">
+				<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="http://blog.topspeedsnail.com/">
+				<label>
+					<span class="screen-reader-text">搜索：</span>
+					<input type="search" class="search-field" placeholder="搜索&hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit screen-reader-text" value="搜索" />
+			</form></aside>		<aside id="recent-posts-4" class="widget widget_recent_entries">		<h2 class="widget-title">近期文章</h2>		<ul>
+					<li>
+				<a href="http://blog.topspeedsnail.com/archives/5049">thefuck: 自动纠正前一个命令的拼写错误</a>
+						</li>
+					<li>
+				<a href="http://blog.topspeedsnail.com/archives/11165">徒步中的程序猿-重庆出发</a>
+						</li>
+					<li>
+				<a href="http://blog.topspeedsnail.com/archives/11150">TensorFlow练习27: 验证码生成器-从文本生成图像</a>
+						</li>
+					<li>
+				<a href="http://blog.topspeedsnail.com/archives/11131">从2D图片生成3D模型（3D-GAN）</a>
+						</li>
+					<li>
+				<a href="http://blog.topspeedsnail.com/archives/11115">TensorFlow练习26: AI操盘手</a>
+						</li>
+				</ul>
+		</aside>		<aside id="recent-comments-3" class="widget widget_recent_comments"><h2 class="widget-title">近期评论</h2><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">一条小虫1111</span>发表在《<a href="http://blog.topspeedsnail.com/archives/10977/comment-page-1#comment-1484">TensorFlow练习24: GANs-生成对抗网络 (生成明星脸)</a>》</li><li class="recentcomments"><span class="comment-author-link">zlyx525</span>发表在《<a href="http://blog.topspeedsnail.com/archives/4755/comment-page-1#comment-1483">Ubuntu 16.04编译安装OpenCV（Python）</a>》</li><li class="recentcomments"><span class="comment-author-link">etrling</span>发表在《<a href="http://blog.topspeedsnail.com/archives/10399/comment-page-1#comment-1482">TensorFlow练习1: 对评论进行分类</a>》</li><li class="recentcomments"><span class="comment-author-link">清风</span>发表在《<a href="http://blog.topspeedsnail.com/archives/11010/comment-page-1#comment-1481">Fizz Buzz in Tensorflow-一场奇怪的面试（译）</a>》</li><li class="recentcomments"><span class="comment-author-link">zzz</span>发表在《<a href="http://blog.topspeedsnail.com/archives/10858/comment-page-1#comment-1480">TensorFlow练习20: 使用深度学习破解字符验证码</a>》</li></ul></aside><aside id="democracy-2" class="widget widget_democracy">
+<!--democracy-->
+<style type="text/css">.democracy:after{content:'';display:table;clear:both}.democracy ul li,.democracy ul{background:none;padding:0;margin:0}.democracy ul li:before{display:none}.democracy input[type='radio'],.democracy input[type='checkbox']{margin:0;vertical-align:middle}.democracy input[type='radio']:focus,.democracy input[type='checkbox']:focus{outline:0}.democracy ul{list-style:none !important;border:0 !important}.democracy ul li{list-style:none !important}input[type="submit"].dem-button,a.dem-button,.dem-button{position:relative;display:inline-block;text-decoration:none;line-height:1;border:0;margin:0;padding:0;cursor:pointer;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}input[type="submit"].dem-button:focus,a.dem-button:focus,.dem-button:focus{outline:0}input[type="submit"].dem-button:disabled,a.dem-button:disabled,.dem-button:disabled{opacity:.6;cursor:not-allowed}a.dem-button:hover{text-decoration:none !important}.democracy{position:relative;margin:0 auto}.democracy input[type='radio'],.democracy input[type='checkbox']{margin-right:.2em}.dem-screen{position:relative;line-height:1.3}.democracy ul.dem-vote{margin-bottom:1em}.democracy ul.dem-vote li{padding-bottom:0;margin-bottom:0}.democracy ul.dem-vote li>*{margin-bottom:.6em}.democracy ul.dem-answers li{padding-bottom:1em}.dem-answers .dem-label{margin-bottom:.2em;line-height:1.2}.dem-graph{position:relative;color:#555;color:rgba(0,0,0,.6);box-sizing:content-box;width:100%;display:table;height:1.2em;line-height:1.2em}.dem-fill{position:absolute;top:0;left:0;height:100%;background-color:#7cb4dd}.dem-voted-this .dem-fill{background-color:#ffc45a}.dem-votes-txt,.dem-percent-txt{position:relative;display:table-cell;padding-left:.3em;vertical-align:middle;font-size:90%}.dem-poll-info{padding-bottom:1em}.dem-poll-info:after{content:'';display:table;clear:both}.dem-poll-info>*{font-size:85%;display:block;float:right;clear:both;text-align:right;opacity:.7;line-height:1.3}.dem-vote label{float:none;display:block}.dem-results-link{display:inline-block;line-height:1;margin:.8em 1em}.dem-vote .dem-disabled{opacity:.5}.democracy .dem-bottom{padding-bottom:1em}.dem-bottom{text-align:center}.dem-bottom:after{content:'';display:table;clear:both}.dem-poll-title{display:block;margin-bottom:1.5em;margin-top:1.2em;font-size:120%}.dem-cache-notice{z-index:10;position:absolute;top:0;border-radius:2px;width:100%;padding:1.5em 2em;text-align:center;background:rgba(247,241,212,.8);color:#6d6214}.dem-notice-close{position:absolute;top:0;right:0;padding:5px;cursor:pointer;line-height:.6;font-size:150%}.dem-notice-close:hover{color:#d26616}.dem-star{font-size:90%;vertical-align:baseline;padding-left:.3em;color:#ff4e00}.dem-poll-note{font-size:90%;padding:.5em;opacity:.8;line-height:1.3}.democracy .dem-copyright{position:absolute;bottom:-1em;right:0;text-decoration:none;border-bottom:0;color:#b2b2b2;opacity:.5;line-height:1}.democracy .dem-copyright:hover{opacity:1}.dem-add-answer{position:relative}.dem-add-answer>*{display:block}.dem-add-answer a{display:inline-block}input.dem-add-answer-txt{width:100%;box-sizing:border-box}.dem-add-answer-close{position:absolute;right:0;padding:0 .7em;cursor:pointer;color:#333}.dem-add-answer-close:hover{color:#ff2700}.dem-edit-link{display:block;position:absolute;top:0;right:0;line-height:1;text-decoration:none !important;border:0 !important}.dem-edit-link svg{width:1.2em !important;fill:#5a5a5a;fill:rgba(0,0,0,.6)}.dem-edit-link:hover svg{fill:#35a91d}.dem-loader{display:none;position:absolute;top:0;left:0;width:100%;height:100%}.dem-loader>*{display:table-cell;vertical-align:middle;text-align:center}.dem-loader svg{width:20%;max-width:100px;min-width:80px;margin-bottom:15%}.dem-loader [class^="dem-"]{margin-bottom:15% !important}.dem__collapser{display:block;cursor:pointer;text-align:center;font-size:150%;line-height:1}.dem__collapser:hover{color:#f31;background:rgba(255,255,255,.3)}.dem__collapser.expanded{position:relative;height:1em}.dem__collapser.collapsed{position:absolute;top:0;bottom:0;right:0;left:0}.dem__collapser .arr{display:block;position:absolute;bottom:0;width:100%}.dem__collapser.collapsed .arr:before{content:"▾"}.dem__collapser.expanded .arr:before{content:"▴"}.dem-archives .democracy{margin-bottom:2em;padding-bottom:20px;border-bottom:1px dashed #ccc}.dem-archives .dem-archive-link{display:none}.dem-link{font-style:italic;font-size:90%}.dem-vote-link:before{content:'◂ '}.dem-vote label:hover{opacity:.8}.dem-vote-button{float:left}.dem-results-link{float:right}.dem-graph{font-family:Arial,sans-serif;background:#f7f7f7;background:linear-gradient(to bottom,rgba(0,0,0,.05) 50%,rgba(0,0,0,.1) 50%);background:-webkit-linear-gradient(top,rgba(0,0,0,.05) 50%,rgba(0,0,0,.1) 50%)}.dem-fill{background-image:linear-gradient(to right,rgba(255,255,255,.3),transparent);background-image:-webkit-linear-gradient(left,rgba(255,255,255,.3),transparent)}.dem-answers .dem-label{margin-bottom:.1em}.dem-votes-txt,.dem-percent-txt{font-size:80%}.dem-percent-txt{display:none}.dem-answers li:hover .dem-votes-txt{display:none}.dem-answers li:hover .dem-percent-txt{display:table-cell}.dem-voted-this .dem-label:before{content:'✓';display:inline-block;margin-right:.2em}.dem-voted-this .dem-graph{border-color:#969696}.dem-label-percent-txt,.dem-votes-txt-percent,.dem-novoted .dem-votes-txt{display:none}.dem-poll-info{font-style:italic}.dem-archive-link{text-align:right}.dem-bottom{text-align:left}input[type="submit"].dem-button,a.dem-button,.dem-button{font-size:90%;font-family:tahoma,arial,sans-serif;padding:.8em 1.6em !important;color:#fff;background:#61a9de;text-transform:uppercase}input[type="submit"].dem-button:hover,a.dem-button:hover,.dem-button:hover{color:#fff;background:#3b8bc6}a.dem-button:visited{color:#fff}</style>
+<div id="democracy-2" class="democracy" data-opts='{"ajax_url":"http:\/\/blog.topspeedsnail.com\/wp-admin\/admin-ajax.php","pid":2,"max_answs":0,"answs_max_height":500,"anim_speed":400}' ><h2 class="widget-title">你最喜欢的编程语言是什么？</h2><div class="dem-screen vote"><form method="POST" action="#democracy-2"><ul class="dem-vote">
+					<li data-aid="24">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="24" name="answer_ids[]"><span class="dem__spot"></span> Python-无敌大蟒蛇
+						</label>
+					</li>
+					<li data-aid="23">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="23" name="answer_ids[]"><span class="dem__spot"></span> C++-神兽下的蛋
+						</label>
+					</li>
+					<li data-aid="37">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="37" name="answer_ids[]"><span class="dem__spot"></span> Java-猫屎
+						</label>
+					</li>
+					<li data-aid="22">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="22" name="answer_ids[]"><span class="dem__spot"></span> C-上古神兽
+						</label>
+					</li>
+					<li data-aid="25">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="25" name="answer_ids[]"><span class="dem__spot"></span> JavaScript-起死回生
+						</label>
+					</li>
+					<li data-aid="31">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="31" name="answer_ids[]"><span class="dem__spot"></span> Go-我歌了个谷
+						</label>
+					</li>
+					<li data-aid="26">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="26" name="answer_ids[]"><span class="dem__spot"></span> PHP-CMS祖师爷
+						</label>
+					</li>
+					<li data-aid="27">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="27" name="answer_ids[]"><span class="dem__spot"></span> C#-瘟斗死
+						</label>
+					</li>
+					<li data-aid="45">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="45" name="answer_ids[]"><span class="dem__spot"></span> R-博士后
+						</label>
+					</li>
+					<li data-aid="33">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="33" name="answer_ids[]"><span class="dem__spot"></span> Ruby-撸比
+						</label>
+					</li>
+					<li data-aid="35">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="35" name="answer_ids[]"><span class="dem__spot"></span> Haskell
+						</label>
+					</li>
+					<li data-aid="30">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="30" name="answer_ids[]"><span class="dem__spot"></span> Swift-第二代肾器
+						</label>
+					</li>
+					<li data-aid="29">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="29" name="answer_ids[]"><span class="dem__spot"></span> Rust-老不用，生锈了
+						</label>
+					</li>
+					<li data-aid="28">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="28" name="answer_ids[]"><span class="dem__spot"></span> Objective-C-第一代肾器
+						</label>
+					</li>
+					<li data-aid="36">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="36" name="answer_ids[]"><span class="dem__spot"></span> Perl
+						</label>
+					</li>
+					<li data-aid="32">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="32" name="answer_ids[]"><span class="dem__spot"></span> VBA
+						</label>
+					</li>
+					<li data-aid="34">
+						<label class="dem__radio_label">
+							<input class="dem__radio"  type="radio" value="34" name="answer_ids[]"><span class="dem__spot"></span> Delphi
+						</label>
+					</li></ul><div class="dem-bottom"><input type="hidden" name="dem_act" value="vote"><input type="hidden" name="dem_pid" value="2"><div class="dem-vote-button"><input class="dem-button " type="submit" value="投票" data-dem-act="vote"></div><a href="javascript:void(0);" class="dem-link dem-results-link" data-dem-act="view" rel="nofollow">结果</a></div></form></div><noscript>Poll Options are limited because JavaScript is disabled in your browser.</noscript><div class="dem-loader"><div><style type="text/css">
+.dem-roller {
+  margin: 0 auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.con1 > div, .con2 > div, .con3 > div {
+  width: 10px;
+  height: 10px;
+  background-color: #2686cc;
+
+  border-radius: 100%;
+  position: absolute;
+  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+  animation: bouncedelay 1.2s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.dem-roller .demrcont {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.con2 {
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+
+.con3 {
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+
+.circle1 { top: 0; left: 0; }
+.circle2 { top: 0; right: 0; }
+.circle3 { right: 0; bottom: 0; }
+.circle4 { left: 0; bottom: 0; }
+
+.con2 .circle1 { -webkit-animation-delay: -1.1s; animation-delay: -1.1s; }
+.con3 .circle1 { -webkit-animation-delay: -1.0s; animation-delay: -1.0s; }
+.con1 .circle2 { -webkit-animation-delay: -0.9s; animation-delay: -0.9s; }
+.con2 .circle2 { -webkit-animation-delay: -0.8s; animation-delay: -0.8s; }
+.con3 .circle2 { -webkit-animation-delay: -0.7s; animation-delay: -0.7s; }
+.con1 .circle3 { -webkit-animation-delay: -0.6s; animation-delay: -0.6s; }
+.con2 .circle3 { -webkit-animation-delay: -0.5s; animation-delay: -0.5s; }
+.con3 .circle3 { -webkit-animation-delay: -0.4s; animation-delay: -0.4s; }
+.con1 .circle4 { -webkit-animation-delay: -0.3s; animation-delay: -0.3s; }
+.con2 .circle4 { -webkit-animation-delay: -0.2s; animation-delay: -0.2s; }
+.con3 .circle4 { -webkit-animation-delay: -0.1s; animation-delay: -0.1s; }
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
+
+<div class="dem-roller">
+  <div class="demrcont con1">
+    <div class="circle1 css-fill"></div>
+    <div class="circle2 css-fill"></div>
+    <div class="circle3 css-fill"></div>
+    <div class="circle4 css-fill"></div>
+  </div>
+  <div class="demrcont con2">
+    <div class="circle1 css-fill"></div>
+    <div class="circle2 css-fill"></div>
+    <div class="circle3 css-fill"></div>
+    <div class="circle4 css-fill"></div>
+  </div>
+  <div class="demrcont con3">
+    <div class="circle1 css-fill"></div>
+    <div class="circle2 css-fill"></div>
+    <div class="circle3 css-fill"></div>
+    <div class="circle4 css-fill"></div>
+  </div>
+</div>
+
+</div></div></div><!--democracy-->
+<script type="text/javascript">function dem_ready(e){"use strict";var t,n=".democracy",i=e(n),o=".dem-screen",s=".dem-add-answer-txt",a=e(".dem-loader").first(),d={};i.length&&(d.opts=i.first().data("opts"),d.ajaxurl=d.opts.ajax_url,d.answMaxHeight=d.opts.answs_max_height,d.speed=parseInt(d.opts.anim_speed),setTimeout(function(){var t=i.find(o).filter(":visible"),n=function(){t.each(function(){d.setHeight(e(this),1)})};t.demInitActions(1),e(window).on("resize.demsetheight",n),e(window).load(n),d.maxAnswLimit();var s=e(".dem-cache-screens");s.length>0&&s.demCacheInit()},10),e.fn.demInitActions=function(t){return this.each(function(){var n=e(this),i="data-dem-act";n.find("["+i+"]").each(function(){e(this).attr("href",""),e(this).click(function(t){t.preventDefault(),e(this).blur().demDoAction(e(this).attr(i))})});var o=!!n.find("input[type=radio][data-dem-act=vote]").first().length;o&&n.find(".dem-vote-button").hide(),d.setAnswsMaxHeight(n),d.setHeight(n,t),n.find("form").submit(function(t){t.preventDefault();var n=e(this).find('input[name="dem_act"]').val();n&&e(this).demDoAction(e(this).find('input[name="dem_act"]').val())})})},e.fn.demSetLoader=function(){var e=this;return a.length?e.closest(o).append(a.clone().css("display","table")):t=setTimeout(function(){d.demLoadingDots(e)},50),this},e.fn.demUnsetLoader=function(){return a.length?this.closest(o).find(".dem-loader").remove():clearTimeout(t),this},e.fn.demAddAnswer=function(){var t=this.first(),n=t.closest(o),i=n.find("[type=checkbox]").length>0,a=e('<input type="text" class="'+s.replace(/\./,"")+'" value="">');if(n.find(".dem-vote-button").show(),n.find("[type=radio]").each(function(){e(this).click(function(){t.fadeIn(300),e(s).remove()}),"radio"==e(this)[0].type&&(this.checked=!1)}),t.hide().parent("li").append(a),a.hide().fadeIn(300).focus(),i){var d=n.find(s);e('<span class="dem-add-answer-close">×</span>').insertBefore(d).css("line-height",d.outerHeight()+"px").click(function(){var t=e(this).parent("li");t.find("input").remove(),t.find("a").fadeIn(300),e(this).remove()})}return!1},e.fn.demCollectAnsw=function(){var t=this.closest("form"),n=t.find("[type=checkbox],[type=radio],[type=text]"),i=t.find(s).val(),o=[],a=n.filter("[type=checkbox]:checked");if(a.length>0)a.each(function(){o.push(e(this).val())});else{var d=n.filter("[type=radio]:checked");d.length&&o.push(d.val())}return i&&o.push(i),o=o.join("~"),o?o:""},e.fn.demDoAction=function(t){var i=this.first(),s=i.closest(n),a={dem_pid:s.data("opts").pid,dem_act:t,action:"dem_ajax"};return"undefined"==typeof a.dem_pid?(console.log("Poll id is not defined!"),!1):"vote"!=t||(a.answer_ids=i.demCollectAnsw(),a.answer_ids)?"delVoted"!=t||confirm(i.data("confirm-text"))?"newAnswer"==t?(i.demAddAnswer(),!1):(i.demSetLoader(),e.post(d.ajaxurl,a,function(e){i.demUnsetLoader(),i.closest(o).html(e).demInitActions()}),!1):!1:(d.demShake(i),!1)},e.fn.demCacheShowNotice=function(e){var t=this.first(),n=t.find(".dem-youarevote").first();return"blockForVisitor"==e&&(t.find(".dem-revote-button").remove(),n=t.find(".dem-only-users").first()),t.prepend(n.show()),setTimeout(function(){n.slideUp("slow")},1e4),this},d.cacheSetAnswrs=function(t,n){var i=n.split(/,/);if(t.hasClass("voted")){var o=t.find(".dem-answers"),s=o.data("voted-class"),a=o.data("voted-txt");e.each(i,function(n,i){t.find('[data-aid="'+i+'"]').addClass(s).attr("title",function(){return a+e(this).attr("title")})}),t.find(".dem-vote-link").remove()}else{var d=t.find("[data-aid]"),r=t.find(".dem-voted-button");e.each(i,function(e,t){d.filter('[data-aid="'+t+'"]').find("input").prop("checked","checked")}),d.find("input").prop("disabled","disabled"),t.find(".dem-vote-button").remove(),r.length?r.show():(t.find('input[value="vote"]').remove(),t.find(".dem-revote-button-wrap").show())}},e.fn.demCacheInit=function(){return this.each(function(){var t=e(this),i=t.prev(n);if(i.length||(i=t.closest(n)),!i.length)return void console.log("Main dem div not found");var s=i.find(o).first(),a=i.data("opts").pid,r=Cookies.get("demPoll_"+a),c="notVote"==r?!0:!1,f=!("undefined"==typeof r||c),l=t.find(o+"-cache.vote").html(),h=t.find(o+"-cache.voted").html();if(l){var u=f&&h;if(s.html((u?h:l)+"<!--cache-->").removeClass("vote voted").addClass(u?"voted":"vote"),f&&d.cacheSetAnswrs(s,r),s.demInitActions(1),!c&&!f&&1==t.data("opt_logs")){var m,p=function(){clearTimeout(m)},v=function(){m=setTimeout(function(){if(!i.hasClass("checkAnswDone")){i.addClass("checkAnswDone");var t=i.find(".dem-link").first();t.demSetLoader(),e.post(d.ajaxurl,{dem_pid:i.data("opts").pid,dem_act:"getVotedIds",action:"dem_ajax"},function(e){t.demUnsetLoader(),e&&(s.html(h),d.cacheSetAnswrs(s,e),s.demInitActions(),s.demCacheShowNotice(e))})}},700)};i.hover(v,p),i.click(v)}}})},d.detectRealHeight=function(e){var t=e.clone().css({height:"auto"}).insertBefore(e),n="border-box"==t.css("box-sizing")?parseInt(t.css("height")):t.height();return t.remove(),n},d.setHeight=function(t,n){var i=d.detectRealHeight(t);n?t.css({height:i}):t.css({opacity:0}).animate({height:i},d.speed,function(){e(this).animate({opacity:1},1.5*d.speed)})},d.setAnswsMaxHeight=function(t){if("-1"!==d.answMaxHeight&&"0"!==d.answMaxHeight&&d.answMaxHeight){var n=t.find(".dem-vote, .dem-answers").first(),i=parseInt(d.answMaxHeight);n.css({"max-height":"none","overflow-y":"visible"});var o="border-box"==n.css("box-sizing")?parseInt(n.css("height")):n.height();if(o>i){n.css("position","relative");var s,a=e('<span class="dem__collapser"><span class="arr"></span></span>').appendTo(n),r=function(){a.addClass("expanded").removeClass("collapsed")},c=function(){a.addClass("collapsed").removeClass("expanded")};t.data("expanded")?r():(c(),n.height(i).css("overflow-y","hidden")),a.hover(function(){t.data("expanded")||(s=setTimeout(function(){a.trigger("click")},1e3))},function(){clearTimeout(s)}),a.click(function(){if(clearTimeout(s),t.data("expanded"))c(),t.data("expanded",!1),t.height("auto"),n.stop().css("overflow-y","hidden").animate({height:i},d.speed,function(){d.setHeight(t,!0)});else{r();var e=d.detectRealHeight(n);e+=7,t.data("expanded",!0),t.height("auto"),n.stop().animate({height:e},d.speed,function(){d.setHeight(t,!0),n.css("overflow-y","visible")})}})}}},d.maxAnswLimit=function(){i.on("change","[type=checkbox]",function(){var t=e(this).closest(n).data("opts").max_answs,i=e(this).closest(o).find("[type=checkbox]"),s=i.filter(":checked").length;s>=t?i.filter(":not(:checked)").each(function(){e(this).prop("disabled","disabled").closest("li").addClass("dem-disabled")}):i.each(function(){e(this).removeProp("disabled").closest("li").removeClass("dem-disabled")})})},d.demShake=function(e){var t=e.css("position");for(t&&"static"!==t||e.css("position","relative"),t=1;2>=t;t++)e.animate({left:-10},50).animate({left:10},100).animate({left:0},50)},d.demLoadingDots=function(e){var n=e,i=n.is("input"),o=i?n.val():n.html();"..."===o.substring(o.length-3)?i?n[0].value=o.substring(0,o.length-3):n[0].innerHTML=o.substring(0,o.length-3):i?n[0].value+=".":n[0].innerHTML+=".",t=setTimeout(function(){d.demLoadingDots(n)},200)})}!function(e){if("function"==typeof define&&define.amd)define(e);else if("object"==typeof exports)module.exports=e();else{var t=window.Cookies,n=window.Cookies=e();n.noConflict=function(){return window.Cookies=t,n}}}(function(){function e(){for(var e=0,t={};e<arguments.length;e++){var n=arguments[e];for(var i in n)t[i]=n[i]}return t}function t(n){function i(t,o,s){var a;if("undefined"!=typeof document){if(arguments.length>1){if(s=e({path:"/"},i.defaults,s),"number"==typeof s.expires){var d=new Date;d.setMilliseconds(d.getMilliseconds()+864e5*s.expires),s.expires=d}try{a=JSON.stringify(o),/^[\{\[]/.test(a)&&(o=a)}catch(r){}return o=n.write?n.write(o,t):encodeURIComponent(String(o)).replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),t=encodeURIComponent(String(t)),t=t.replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent),t=t.replace(/[\(\)]/g,escape),document.cookie=[t,"=",o,s.expires&&"; expires="+s.expires.toUTCString(),s.path&&"; path="+s.path,s.domain&&"; domain="+s.domain,s.secure?"; secure":""].join("")}t||(a={});for(var c=document.cookie?document.cookie.split("; "):[],f=/(%[0-9A-Z]{2})+/g,l=0;l<c.length;l++){var h=c[l].split("="),u=h[0].replace(f,decodeURIComponent),m=h.slice(1).join("=");'"'===m.charAt(0)&&(m=m.slice(1,-1));try{if(m=n.read?n.read(m,u):n(m,u)||m.replace(f,decodeURIComponent),this.json)try{m=JSON.parse(m)}catch(r){}if(t===u){a=m;break}t||(a[u]=m)}catch(r){}}return a}}return i.set=i,i.get=function(e){return i(e)},i.getJSON=function(){return i.apply({json:!0},[].slice.call(arguments))},i.defaults={},i.remove=function(t,n){i(t,"",e(n,{expires:-1}))},i.withConverter=t,i}return t(function(){})});var demjquerywait=setInterval(function(){"undefined"!=typeof jQuery&&(clearInterval(demjquerywait),jQuery(document).ready(dem_ready))},50);</script>
+</aside><aside id="text-4" class="widget widget_text">			<div class="textwidget"><p>微信: print_panda<br />
+微博: 斗大的熊猫<br />
+QQ群: 193093683 (D啪乐嗯)<br />
+<a href="http://blog.topspeedsnail.com/donate">赞助斗大熊</a><br />
+<a href="mailto:tianshuai2012@gmail.com">给我发邮件</a><br />
+<a href="https://jizhi.im/blog">集智专栏 by Kaiser(知呼老司机)</a><br />
+<a href="https://docs.russellcloud.cn/">RussellCloud (帐号<br />
+{test:test123})</a></p>
+</div>
+		</aside><aside id="meta-2" class="widget widget_meta"><h2 class="widget-title">功能</h2>			<ul>
+						<li><a href="http://blog.topspeedsnail.com/wp-login.php">登录</a></li>
+			<li><a href="http://blog.topspeedsnail.com/feed">文章<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://blog.topspeedsnail.com/comments/feed">评论<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://cn.wordpress.org/" title="基于WordPress，一个优美、先进的个人信息发布平台。">WordPress.org</a></li>			</ul>
+			</aside>			</div><!-- .widget-area -->
+		
+	</div><!-- .secondary -->
+
+	</div><!-- .sidebar -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+<article id="post-8492" class="post-8492 post type-post status-publish format-standard hentry category-linux category-server tag-pptp tag-vpn">
+	
+	<header class="entry-header">
+		<h1 class="entry-title">CentOS 7 安装配置 PPTP VPN服务端</h1>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>PPTP协议是VPN族中最不安全的协议，要过天朝firewall的话，推荐其它方法：</p>
+<ul>
+<li><a href="http://blog.topspeedsnail.com/archives/8197">Ubuntu 编译安装 Shadowsocks-libev</a></li>
+<li><a href="http://blog.topspeedsnail.com/archives/5119">Ubuntu 16.04 安装配置 Shadowsocks 服务端</a></li>
+<li><a href="http://blog.topspeedsnail.com/archives/7488">IPsec/L2TP VPN安装脚本－Ubuntu/Debian</a></li>
+<li><a href="http://blog.topspeedsnail.com/archives/8445">CentOS 7 安装配置 SoftEther VPN服务端</a></li>
+</ul>
+<p><span id="more-8492"></span></p>
+<h3>CentOS 7安装配置PPTP</h3>
+<h4>#1 安装前检查系统</h4>
+<p>在安装之前查看系统是否支持PPTP VPN：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a698428874f2790260032" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+modprobe ppp-compress-18 &amp;&amp; echo success</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a698428874f2790260032-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a698428874f2790260032-1"><span class="crayon-e">modprobe </span><span class="crayon-v">ppp</span><span class="crayon-o">-</span><span class="crayon-r">compress</span><span class="crayon-o">-</span><span class="crayon-cn">18</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-r">echo</span><span class="crayon-h"> </span><span class="crayon-v">success</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>应该输出&#8221;success&#8221;，如果不支持尝试安装：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887502921369306" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+yum install kernel-devel</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887502921369306-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887502921369306-1"><span class="crayon-e">yum </span><span class="crayon-e">install </span><span class="crayon-v">kernel</span><span class="crayon-o">-</span><span class="crayon-v">devel</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>是否开启TUN/TAP：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887508912472548" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+cat /dev/net/tun</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887508912472548-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887508912472548-1"><span class="crayon-r">cat</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">dev</span><span class="crayon-o">/</span><span class="crayon-v">net</span><span class="crayon-o">/</span><span class="crayon-v">tun</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>应该输出：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887510497573793" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+cat: /dev/net/tun: File descriptor in bad state</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887510497573793-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887510497573793-1"><span class="crayon-v">cat</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">dev</span><span class="crayon-o">/</span><span class="crayon-v">net</span><span class="crayon-o">/</span><span class="crayon-v">tun</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">File </span><span class="crayon-e">descriptor </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">bad </span><span class="crayon-v">state</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p>是否开启ppp：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887515661832430" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+cat /dev/ppp</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887515661832430-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887515661832430-1"><span class="crayon-r">cat</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">dev</span><span class="crayon-o">/</span><span class="crayon-v">ppp</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>应该输出：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a6984288751a947529216" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+cat: /dev/ppp: No such device or address</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a6984288751a947529216-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a6984288751a947529216-1"><span class="crayon-v">cat</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">dev</span><span class="crayon-o">/</span><span class="crayon-v">ppp</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">No </span><span class="crayon-e">such </span><span class="crayon-e">device </span><span class="crayon-st">or</span><span class="crayon-h"> </span><span class="crayon-v">address</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p>确保满足上面3个条件，如果不满足，表示不能安装PPTP VPN。</p>
+<h4>#2 安装软件包</h4>
+<p>pptpd在epel仓库中，首先安装epel仓库：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a6984288751f709191285" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+yum install epel-release</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a6984288751f709191285-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a6984288751f709191285-1"><span class="crayon-e">yum </span><span class="crayon-e">install </span><span class="crayon-v">epel</span><span class="crayon-o">-</span><span class="crayon-v">release</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>安装需要的软件包：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887524794632480" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+yum install ppp pptpd net-tools iptables-services</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887524794632480-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887524794632480-1"><span class="crayon-e">yum </span><span class="crayon-e">install </span><span class="crayon-e">ppp </span><span class="crayon-e">pptpd </span><span class="crayon-v">net</span><span class="crayon-o">-</span><span class="crayon-e">tools </span><span class="crayon-v">iptables</span><span class="crayon-o">-</span><span class="crayon-v">services</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+<p></p>
+<h4> #3 配置pptpd</h4>
+<p>编辑/etc/pptpd.conf：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887528527839162" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+vim /etc/pptpd.conf</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887528527839162-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887528527839162-1"><span class="crayon-r">vim</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">pptpd</span><span class="crayon-e">.conf</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+<p>写入内容：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a6984288752d018663104" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+option /etc/ppp/options.pptpd
+logwtmp
+localip 10.0.10.1  # 设置pptp虚拟网卡接口IP地址（注意：不是服务器的公共IP）
+remoteip 10.0.10.2-254 # 为拨入vpn的用户动态分配的IP地址池</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a6984288752d018663104-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a6984288752d018663104-2">2</div><div class="crayon-num" data-line="crayon-5a6984288752d018663104-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a6984288752d018663104-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a6984288752d018663104-1"><span class="crayon-v">option</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">ppp</span><span class="crayon-o">/</span><span class="crayon-v">options</span><span class="crayon-sy">.</span><span class="crayon-e">pptpd</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a6984288752d018663104-2"><span class="crayon-e">logwtmp</span></div><div class="crayon-line" id="crayon-5a6984288752d018663104-3"><span class="crayon-i">localip</span><span class="crayon-h"> </span><span class="crayon-cn">10.0.10.1</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-p"># 设置pptp虚拟网卡接口IP地址（注意：不是服务器的公共IP）</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a6984288752d018663104-4"><span class="crayon-i">remoteip</span><span class="crayon-h"> </span><span class="crayon-cn">10.0.10.2</span><span class="crayon-o">-</span><span class="crayon-cn">254</span><span class="crayon-h"> </span><span class="crayon-p"># 为拨入vpn的用户动态分配的IP地址池</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>编辑/etc/ppp/options.pptpd：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887532813255348" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+vim /etc/ppp/options.pptpd</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887532813255348-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887532813255348-1"><span class="crayon-r">vim</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">ppp</span><span class="crayon-o">/</span><span class="crayon-v">options</span><span class="crayon-e">.pptpd</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>写入内容：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887536965289938" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+name pptpd
+
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+require-mppe-128
+
+proxyarp
+
+lock
+nobsdcomp
+
+novj
+novjccomp
+nologfd
+
+ms-dns 8.8.8.8  #添加主DNS服务器地址
+ms-dns 8.8.4.4  #添加备DNS服务器地址</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887536965289938-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-2">2</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-4">4</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-6">6</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-8">8</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-10">10</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-12">12</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-14">14</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-16">16</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887536965289938-18">18</div><div class="crayon-num" data-line="crayon-5a69842887536965289938-19">19</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887536965289938-1"><span class="crayon-e">name </span><span class="crayon-e">pptpd</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-2">&nbsp;</div><div class="crayon-line" id="crayon-5a69842887536965289938-3"><span class="crayon-v">refuse</span><span class="crayon-o">-</span><span class="crayon-e">pap</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-4"><span class="crayon-v">refuse</span><span class="crayon-o">-</span><span class="crayon-e">chap</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-5"><span class="crayon-v">refuse</span><span class="crayon-o">-</span><span class="crayon-e">mschap</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-6"><span class="crayon-v">require</span><span class="crayon-o">-</span><span class="crayon-v">mschap</span><span class="crayon-o">-</span><span class="crayon-e">v2</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-7"><span class="crayon-v">require</span><span class="crayon-o">-</span><span class="crayon-v">mppe</span><span class="crayon-o">-</span><span class="crayon-cn">128</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-8">&nbsp;</div><div class="crayon-line" id="crayon-5a69842887536965289938-9"><span class="crayon-e">proxyarp</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-10">&nbsp;</div><div class="crayon-line" id="crayon-5a69842887536965289938-11"><span class="crayon-e">lock</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-12"><span class="crayon-e">nobsdcomp</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-14"><span class="crayon-e">novj</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-15"><span class="crayon-e">novjccomp</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-16"><span class="crayon-e">nologfd</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-17">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887536965289938-18"><span class="crayon-v">ms</span><span class="crayon-o">-</span><span class="crayon-i">dns</span><span class="crayon-h"> </span><span class="crayon-cn">8.8.8.8</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-p">#添加主DNS服务器地址</span></div><div class="crayon-line" id="crayon-5a69842887536965289938-19"><span class="crayon-v">ms</span><span class="crayon-o">-</span><span class="crayon-i">dns</span><span class="crayon-h"> </span><span class="crayon-cn">8.8.4.4</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-p">#添加备DNS服务器地址</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0015 seconds] -->
+<p>添加VPN用户和密码：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a6984288753b112807949" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+vim /etc/ppp/chap-secrets</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a6984288753b112807949-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a6984288753b112807949-1"><span class="crayon-r">vim</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">ppp</span><span class="crayon-o">/</span><span class="crayon-v">chap</span><span class="crayon-o">-</span><span class="crayon-v">secrets</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+<p>写入内容：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887540196848087" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+# Secrets for authentication using CHAP
+# client	server	secret			IP addresses
+user_test1       pptpd   123456                 *
+user_test2       pptpd   123456                 *</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887540196848087-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887540196848087-2">2</div><div class="crayon-num" data-line="crayon-5a69842887540196848087-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887540196848087-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887540196848087-1"><span class="crayon-p"># Secrets for authentication using CHAP</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887540196848087-2"><span class="crayon-p"># client	server	secret			IP addresses</span></div><div class="crayon-line" id="crayon-5a69842887540196848087-3"><span class="crayon-e">user_test1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-i">pptpd</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-cn">123456</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">*</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887540196848087-4"><span class="crayon-e">user_test2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-i">pptpd</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-cn">123456</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">*</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+<p>*代表所有IP都可以连接本vpn用户。</p>
+<h4>#4 开启IP转发</h4>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887544150976575" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+echo net.ipv4.ip_forward = 1 &gt;&gt; /etc/sysctl.conf
+sysctl -p   # 使生效</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887544150976575-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887544150976575-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887544150976575-1"><span class="crayon-r">echo</span><span class="crayon-h"> </span><span class="crayon-v">net</span><span class="crayon-e">.ipv4</span><span class="crayon-e">.ip_forward</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-o">&gt;&gt;</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">sysctl</span><span class="crayon-e">.conf</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887544150976575-2"><span class="crayon-v">sysctl</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">p</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c"># 使生效</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h4>#5 配置防火墙</h4>
+<p>停用所有防火墙：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887549840343651" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+systemctl stop firewalld
+systemctl disable firewalld  # 如果使用firewallid
+service iptables save
+service iptables stop
+chkconfig iptables off
+iptables -F</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887549840343651-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887549840343651-2">2</div><div class="crayon-num" data-line="crayon-5a69842887549840343651-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887549840343651-4">4</div><div class="crayon-num" data-line="crayon-5a69842887549840343651-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887549840343651-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887549840343651-1"><span class="crayon-e">systemctl </span><span class="crayon-e">stop </span><span class="crayon-e">firewalld</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887549840343651-2"><span class="crayon-e">systemctl </span><span class="crayon-e">disable </span><span class="crayon-v">firewalld</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c"># 如果使用firewallid</span></div><div class="crayon-line" id="crayon-5a69842887549840343651-3"><span class="crayon-e">service </span><span class="crayon-e">iptables </span><span class="crayon-e">save</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887549840343651-4"><span class="crayon-e">service </span><span class="crayon-e">iptables </span><span class="crayon-e">stop</span></div><div class="crayon-line" id="crayon-5a69842887549840343651-5"><span class="crayon-e">chkconfig </span><span class="crayon-e">iptables </span><span class="crayon-e">off</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887549840343651-6"><span class="crayon-v">iptables</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">F</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>设置防火墙转发规则：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a6984288754e888728300" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a6984288754e888728300-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a6984288754e888728300-1"><span class="crayon-v">iptables</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">t</span><span class="crayon-h"> </span><span class="crayon-v">nat</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">A</span><span class="crayon-h"> </span><span class="crayon-v">POSTROUTING</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">o</span><span class="crayon-h"> </span><span class="crayon-v">eth0</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">j</span><span class="crayon-h"> </span><span class="crayon-v">MASQUERADE</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0019 seconds] -->
+<p>注意替换上面的网卡接口名(eth0)，使用ifconfig查看。</p>
+<p>设置开机自动执行上面的命令：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887553271024566" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+echo "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE" &gt;&gt; /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887553271024566-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5a69842887553271024566-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887553271024566-1"><span class="crayon-i">echo</span><span class="crayon-h"> </span><span class="crayon-s">"iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"</span><span class="crayon-h"> </span><span class="crayon-o">&gt;&gt;</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">rc</span><span class="crayon-sy">.</span><span class="crayon-v">d</span><span class="crayon-o">/</span><span class="crayon-v">rc</span><span class="crayon-sy">.</span><span class="crayon-e">local</span></div><div class="crayon-line crayon-striped-line" id="crayon-5a69842887553271024566-2"><span class="crayon-v">chmod</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">rc</span><span class="crayon-sy">.</span><span class="crayon-v">d</span><span class="crayon-o">/</span><span class="crayon-v">rc</span><span class="crayon-sy">.</span><span class="crayon-v">local</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>重启pptpd服务：</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5a69842887557752462634" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 17px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 13px !important; line-height: 17px !important;">
+service pptpd restart</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 17px !important;"><div class="crayon-num" data-line="crayon-5a69842887557752462634-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 17px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5a69842887557752462634-1"><span class="crayon-e">service </span><span class="crayon-e">pptpd </span><span class="crayon-v">restart</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p></p>
+<h4>#6 测试</h4>
+<p><img class="alignnone wp-image-8494 size-full" src="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/屏幕快照-2016-09-02-下午10.29.42.png" alt="CentOS 7 安装配置 PPTP VPN服务端" width="564" height="113" srcset="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/屏幕快照-2016-09-02-下午10.29.42.png 564w, http://blog.topspeedsnail.com/wp-content/uploads/2016/09/屏幕快照-2016-09-02-下午10.29.42-300x60.png 300w" sizes="(max-width: 564px) 100vw, 564px" /></p>
+<p><img class="alignnone wp-image-8495 size-full" src="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223059.jpg" alt="CentOS 7 安装配置 PPTP VPN服务端" width="450" height="800" srcset="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223059.jpg 450w, http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223059-169x300.jpg 169w" sizes="(max-width: 450px) 100vw, 450px" /></p>
+<p><img class="alignnone wp-image-8496 size-full" src="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223123.jpg" alt="CentOS 7 安装配置 PPTP VPN服务端" width="450" height="800" srcset="http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223123.jpg 450w, http://blog.topspeedsnail.com/wp-content/uploads/2016/09/S60902-223123-169x300.jpg 169w" sizes="(max-width: 450px) 100vw, 450px" /></p>
+
+<div class="juiz_sps_links  counters_both juiz_sps_displayed_bottom">
+<p class="screen-reader-text juiz_sps_maybe_hidden_text">Share the post "CentOS 7 安装配置 PPTP VPN服务端"</p>
+
+	<ul class="juiz_sps_links_list"><li class="juiz_sps_item juiz_sps_link_facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.topspeedsnail.com/archives/8492" rel="nofollow" title="Share this article on Facebook"><span class="juiz_sps_icon jsps-facebook"></span><span class="juiz_sps_network_name">Facebook</span></a></li><li class="juiz_sps_item juiz_sps_link_google"><a href="https://plus.google.com/share?url=http://blog.topspeedsnail.com/archives/8492" rel="nofollow" title="Share this article on Google+"><span class="juiz_sps_icon jsps-google"></span><span class="juiz_sps_network_name">Google+</span></a></li><li class="juiz_sps_item juiz_sps_link_twitter"><a href="https://twitter.com/intent/tweet?source=webclient&amp;original_referer=http://blog.topspeedsnail.com/archives/8492&amp;text=CentOS%207%20%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%20PPTP%20VPN%E6%9C%8D%E5%8A%A1%E7%AB%AF&amp;url=http://blog.topspeedsnail.com/archives/8492" rel="nofollow" title="Share this article on Twitter"><span class="juiz_sps_icon jsps-twitter"></span><span class="juiz_sps_network_name">Twitter</span></a></li><li class="juiz_sps_item juiz_sps_link_weibo"><a href="http://service.weibo.com/share/share.php?title=CentOS%207%20%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%20PPTP%20VPN%E6%9C%8D%E5%8A%A1%E7%AB%AF+%3A+PPTP%E5%8D%8F%E8%AE%AE%E6%98%AFVPN%E6%97%8F%E4%B8%AD%E6%9C%80%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%8F%E8%AE%AE%EF%BC%8C%E8%A6%81%E8%BF%87%E5%A4%A9%E6%9C%9Dfirewall%E7%9A%84%E8%AF%9D%EF%BC%8C%E6%8E%A8%E8%8D%90%E5%85%B6%E5%AE%83%E6%96%B9%E6%B3%95%EF%BC%9A%0D%0A%0D%0A+%09Ubuntu+%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85+Shadowsocks-libev%0D%0A+%09Ubuntu+16&amp;url=http://blog.topspeedsnail.com/archives/8492" rel="nofollow" title="Share this article on Weibo"><span class="juiz_sps_icon jsps-weibo"></span><span class="juiz_sps_network_name">Weibo</span></a></li><li class="juiz_sps_item juiz_sps_link_mail"><a href="mailto:?subject=Visit this link find on http://blog.topspeedsnail.com&amp;body=Hi, I found this information for you : &quot;CentOS 7 安装配置 PPTP VPN服务端&quot;! This is the direct link: http://blog.topspeedsnail.com/archives/8492 Have a nice day :)" rel="nofollow" title="Share this article with a friend (email)"><span class="juiz_sps_icon jsps-mail"></span><span class="juiz_sps_network_name">Email</span></a></li></ul>
+	</div>
+
+<!-- Begin Yuzo --><div class='yuzo_related_post style-4'  data-version='5.12.68'><div class='yuzo_clearfixed yuzo__title'><h3>相关文章</h3></div><div class='yuzo_wraps'>
+					<div class="relatedthumb yuzo-list-color color-1"  >  
+						<a  class="link-list yuzo__text--title" href="http://blog.topspeedsnail.com/archives/903"    style="font-size:13px;;line-height:21px;"> Ubuntu 安装配置 PPTP 服务 </a>
+							  
+					</div>
+					<div class="relatedthumb yuzo-list-color color-2"  >  
+						<a  class="link-list yuzo__text--title" href="http://blog.topspeedsnail.com/archives/260"    style="font-size:13px;;line-height:21px;"> Ubuntu 安装 L2TP 协议的 VPN服务 </a>
+							  
+					</div>
+					<div class="relatedthumb yuzo-list-color color-3"  >  
+						<a  class="link-list yuzo__text--title" href="http://blog.topspeedsnail.com/archives/4242"    style="font-size:13px;;line-height:21px;"> Kali Linux安装VPN客户端 </a>
+							  
+					</div>
+					<div class="relatedthumb yuzo-list-color color-4"  >  
+						<a  class="link-list yuzo__text--title" href="http://blog.topspeedsnail.com/archives/7488"    style="font-size:13px;;line-height:21px;"> IPsec/L2TP VPN安装脚本－Ubuntu/Debian </a>
+							  
+					</div>
+					<div class="relatedthumb yuzo-list-color color-5"  >  
+						<a  class="link-list yuzo__text--title" href="http://blog.topspeedsnail.com/archives/8445"    style="font-size:13px;;line-height:21px;"> CentOS 7 安装配置 SoftEther VPN服务端 </a>
+							  
+					</div></div> <!-- end wrap -->
+</div> <style>
+						.yuzo_related_post .yuzo_text {color:;}
+						.yuzo_related_post .relatedthumb a{color:;}
+					</style>  <!-- End Yuzo :) -->	</div><!-- .entry-content -->
+
+	
+	<footer class="entry-footer">
+		<span class="posted-on"><span class="screen-reader-text">发布于 </span><a href="http://blog.topspeedsnail.com/archives/8492" rel="bookmark"><time class="entry-date published updated" datetime="2016-09-02T22:38:39+00:00">2016年9月2日</time></a></span><span class="byline"><span class="author vcard"><span class="screen-reader-text">作者 </span><a class="url fn n" href="http://blog.topspeedsnail.com/archives/author/wtf">wtf</a></span></span><span class="cat-links"><span class="screen-reader-text">分类 </span><a href="http://blog.topspeedsnail.com/archives/category/linux" rel="category tag">Linux</a>、<a href="http://blog.topspeedsnail.com/archives/category/server" rel="category tag">server</a></span><span class="tags-links"><span class="screen-reader-text">标签 </span><a href="http://blog.topspeedsnail.com/archives/tag/pptp" rel="tag">PPTP</a>、<a href="http://blog.topspeedsnail.com/archives/tag/vpn" rel="tag">vpn</a></span>			</footer><!-- .entry-footer -->
+
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="/archives/8492#respond" style="display:none;">取消回复</a></small></h3>			<form action="http://blog.topspeedsnail.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+				<p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注</p><p class="comment-form-comment"><label for="comment">评论</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">电子邮件 <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">站点</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" /></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="发表评论" /> <input type='hidden' name='comment_post_ID' value='8492' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>		<p class="antispam-group antispam-group-q" style="clear: both;">
+			<label>Current ye@r <span class="required">*</span></label>
+			<input type="hidden" name="antspm-a" class="antispam-control antispam-control-a" value="2018" />
+			<input type="text" name="antspm-q" class="antispam-control antispam-control-q" value="4.3" autocomplete="off" />
+		</p>
+		<p class="antispam-group antispam-group-e" style="display: none;">
+			<label>Leave this field empty</label>
+			<input type="text" name="antspm-e-email-url-website" class="antispam-control antispam-control-e" value="" autocomplete="off" />
+		</p>
+			</form>
+			</div><!-- #respond -->
+	
+</div><!-- .comments-area -->
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">文章导航</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="http://blog.topspeedsnail.com/archives/8490" rel="prev"><span class="meta-nav" aria-hidden="true">上一</span> <span class="screen-reader-text">上篇文章：</span> <span class="post-title">Ubuntu 16.04 安装 Avidemux－视频编辑器</span></a></div><div class="nav-next"><a href="http://blog.topspeedsnail.com/archives/8501" rel="next"><span class="meta-nav" aria-hidden="true">下一</span> <span class="screen-reader-text">下篇文章：</span> <span class="post-title">Ubuntu 安装 Minitube油管客户端</span></a></div></div>
+	</nav>
+		</main><!-- .site-main -->
+	</div><!-- .content-area -->
+
+
+	</div><!-- .site-content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+                    Copyright&nbsp;&copy; 2013-2017&nbsp;&nbsp;<a href="http://blog.topspeedsnail.com/">WTF Daily Blog</a>&nbsp;|&nbsp;Powered by&nbsp;<a href="https://m.do.co/c/b47d33fbe462" rel="nofollow">DigitalOcean</a>
+		</div><!-- .site-info -->
+	</footer><!-- .site-footer -->
+
+
+
+</div><!-- .site -->
+
+
+
+
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/plugins/anti-spam/js/anti-spam-4.3.js'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/plugins/yuzo-related-post/assets/js/jquery.equalizer.js?ver=5.12.68'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/js/skip-link-focus-fix.js?ver=20141010'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-includes/js/comment-reply.min.js?ver=4.7.9'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var screenReaderText = {"expand":"<span class=\"screen-reader-text\">\u5c55\u5f00\u5b50\u83dc\u5355<\/span>","collapse":"<span class=\"screen-reader-text\">\u6298\u53e0\u5b50\u83dc\u5355<\/span>"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-content/themes/twentyfifteen/js/functions.js?ver=20150330'></script>
+<script type='text/javascript' src='http://blog.topspeedsnail.com/wp-includes/js/wp-embed.min.js?ver=4.7.9'></script>
+
+</body>
+</html>

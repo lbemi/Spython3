@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>米e宝</title>
+		<link rel="stylesheet" href="front/css/common.css"/>
+		<link rel="stylesheet" href="front/css/index.css">
+		<link rel="stylesheet" href="front/css/swiper.min.css">
+		<script src="front/js/jquery-2.1.1.min.js"></script>
+		<script src="front/js/swiper.min2.js"></script>
+        <script src="front/js/nav.js"></script>
+	</head>
+	<body>
+	<!--计算器浮层-->
+	<div class="pop">
+		<div class="pop_jsq">
+			<div class="jsq_tit">
+				<span>收益计算器</span>
+				<span class="close1"><i></i><i></i></span>
+			</div>
+			<div class="jsq_l">
+				<div class="jsq_bk">
+					<p><label>投资金额：</label><input type="text" class="amount"> 元</p>
+					<p><label>预期年化：</label><input type="text" class="apr"> %</p>
+					<p><label>理财期限：</label><input type="text" class="date"> 月</p>
+				</div>
+				<div class="jsq_btn">
+					<a class="btn CZclick"><span class="bk"></span><span class="cr">计算</span></a>
+					<a class="btn TXclick"><span class="cz"></span><span class="cc">重置</span></a>
+				</div>
+				<p style="clear: both;"></p>
+				<div class="money">预期总收益：<i id="money">0.00</i> 元</div>
+			</div>
+			<div class="jsq_r">
+				<span>投资权益</span>
+				<dl>
+					<dt><img src="front/img/icon1.png" alt=""></dt>
+					<dd>
+						<p>投资赠送会员值</p>
+						<p>成为会员永久享用会员特权</p>
+					</dd>
+				</dl>
+				<dl>
+					<dt><img src="front/img/icon2.png" alt=""></dt>
+					<dd>
+						<p>投资免费获赠积分</p>
+						<p>兑换商品</p>
+					</dd>
+				</dl>
+			</div>
+			<p style="clear: both;"></p>
+			<div class="txt">
+				<p class="hf">此工具为便于用户理解而设定，其结果值为估算，不构成平台对最终收益的保证</p>
+				<p class="hf">投资有风险，理财需谨慎，建议您了解相关风险信息并做出合理投资决定</p>
+			</div>
+		</div>
+	</div>
+	<div class="pop2">
+		<div class="pop_zf2">
+			<div class="close"></div>
+			<div class="zftit"><span style="visibility: hidden">一</span></div>
+			<div class="zfcr">
+				<p class="tt">米e宝平台积极响应国家政策，联手恒丰银行存管安全再升级，需要您重新进行实名制认证，否则无法在平台进行交易</p>
+				<p class="zfbt"><button class="btn" id="sq"><span class="bk"></span><span class="cr">确认</span></button></p>
+			</div>
+		</div>
+	</div>
+		<div class="rongqi">
+			<!--浮动层、计算器、客服、返回定顶层-->
+			<div class="wamp">
+				<p><img src="front/img/LOGO.png"></p>
+				<p id="jsq"><img src="front/img/jsq_icon.png"></p>
+				<p id="kf"><a target="_blank" href="http://wpa.qq.com/msgrd?v=1&uin=2785559808&site=qq&menu=yes"><img src="front/img/kf_icon.png"></a></p>
+				<p id="up"><a href="#"><img src="front/img/jt_icon.png"></a></p>
+			</div>
+			<!--顶部-->
+			<div class="header">
+				<!--<div class="w1200">-->
+				<!--<div class="fl kkf">-->
+				<!--<span>客服电话：400-911-9917</span>-->
+				<!--<span>服务时间：9:30-17:30</span>-->
+				<!--</div>-->
+				<!--<div class="fr welcome">-->
+				<!--<a href="javascript:;"><img src="img/ren.png"/> <i>马先生</i></a>-->
+				<!--<a href="javascript:;">APP下载</a>-->
+				<!--<a href="#1"><img src="img/bangzhu.png"/> 帮助中心</a>-->
+				<!--<a href="login.html"><img src="img/tuichu.png"/> 退出登录</a>-->
+				<!--</div>-->
+				<!--</div>-->
+			</div>
+			<div style="position: relative;">
+				<!--导航-->
+				<div class="navbar">
+					<!--<div class="w1200">-->
+					<!--<h1 class="logo fl">-->
+					<!--<a href="index.html"><img src="img/MIEBAOLOGO1.png"/></a>-->
+					<!--</h1>-->
+					<script>
+                        $(function(){
+                            $(".navbar .nav .nav_item").eq(0).addClass("active");
+                            $(".navbar .logo").html('<a href="index.html"><img src="front/img/MIEBAOLOGO1.png"/></a>')
+                        });
+					</script>
+					<!--<div class="nav fr">-->
+					<!--<ul class="clearfix">-->
+					<!--<li class="nav_item active"><a href="index.html">首页</a></li>-->
+					<!--<li class="nav_item"><a href="#1">我要理财</a></li>-->
+					<!--<li class="nav_item"><a href="#1">我要借款</a></li>-->
+					<!--<li class="nav_item"><a href="#1">信息披露</a></li>-->
+					<!--<li class="nav_item"><a href="#1">积分商城</a></li>-->
+					<!--<li class="nav_item"><a href="#1">我的账户</a></li>-->
+					<!--</ul>-->
+					<!--<div class="fr welsj">-->
+					<!--<a href="javascript:;"><img src="img/ren.png"/> <i>马先生</i></a>-->
+					<!--<a href="javascript:;">APP下载</a>-->
+					<!--<a href="#1"><img src="img/bangzhu.png"/> 帮助中心</a>-->
+					<!--<a href="login.html"><img src="img/tuichu.png"/> 退出登录</a>-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--<div class="three col">-->
+					<!--<div class="hamburger" id="hamburger-6">-->
+					<!--<span class="line"></span>-->
+					<!--<span class="line"></span>-->
+					<!--<span class="line"></span>-->
+					<!--</div>-->
+					<!--</div>-->
+				</div>
+			</div>
+			<!--banner-->
+			<div class="banner">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<a href="front/banner/hengfengcunguan.html"><img src="front/img/background1.png" /> </a>
+							<div class="w1200">
+								<div class="banner_cr">
+									<img src="front/img/text1.png" class="dfimg"/>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<a href="front/banner/ICP.html"><img src="front/img/background2.png" /> </a>
+							<div class="w1200">
+								<div class="banner_cr">
+									<img src="front/img/text2.png" class="dfimg"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 如果需要导航按钮 -->
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
+			</div>
+			<div class="count countbt">
+				<div class="w1200">
+					<ul class="count_ul">
+						<li>
+							<p class="p1">平台已加入（人）</p>
+							<p class="p1 joinNum"></p>
+						</li>
+						<li>
+							<p class="p1">平台累计交易金额（元）</p>
+							<p class="p1 totalMoney"></p>
+						</li>
+						<li>
+							<p class="p1">昨日交易额（元）</p>
+							<p class="p1 yesterdayTrade"></p>
+						</li>
+						<li>
+							<p class="p1">平台运营（天）</p>
+							<p class="p1 companyDays"></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--主体内容-->
+		<div class="main">
+			<!--关于米E宝-->
+			<div class="ibox">
+				<div class="w1200">
+					<div class="title">
+						<h3>关于米e宝<i></i></h3>
+					</div>
+					<script>
+						$(function(){
+							$(".about .ab_item").hover(function(){
+								$(this).addClass("active");
+								$(this).removeClass("active2");
+							},function(){
+								$(this).removeClass("active");
+								$(this).addClass("active2");
+							})
+						})
+					</script>
+					<div class="about">
+						<ul>
+							<li class="ab_item">
+								<div class="ab_item_cr">
+									<div class="ab_item_cr_one animated">
+										<h3><span>01</span><span>集团保障</span></h3>
+										<img src="front/img/tb(1).png" class="dfimg"/>
+									</div>
+									<div class="ab_item_cr_two animated">
+										<h4>集团保障</h4>
+										<p class="w43"><img src="front/img/tb_click(1).png"/></p>
+										<p class="line"><span></span></p>
+										<p class="tt"> 29家分公司，168家线下体验公司</p>
+										<p class="jt"><img src="front/img/jt.png"/> </p>
+										<p class="num">01</p>
+									</div>
+								</div>
+							</li>
+							<li class="ab_item">
+								<div class="ab_item_cr">
+									<div class="ab_item_cr_one animated">
+										<h3><span>02</span><span>恒丰合作</span></h3>
+										<img src="front/img/tb(2).png" class="dfimg"/>
+									</div>
+									<div class="ab_item_cr_two animated">
+										<h4>恒丰合作</h4>
+										<p class="w43"><img src="front/img/tb_click(2).png"/></p>
+										<p class="line"><span></span></p>
+										<p class="tt"> 值得信赖的银行合作伙伴</p>
+										<p class="jt"><img src="front/img/jt.png"/> </p>
+										<p class="num">02</p>
+									</div>
+								</div>
+							</li>
+							<li class="ab_item">
+								<div class="ab_item_cr">
+									<div class="ab_item_cr_one animated">
+										<h3><span>03</span><span>安全保障</span></h3>
+										<img src="front/img/tb(3).png" class="dfimg"/>
+									</div>
+									<div class="ab_item_cr_two animated">
+										<h4>安全保障</h4>
+										<p class="w43"><img src="front/img/tb_click(3).png"/></p>
+										<p class="line"><span></span></p>
+										<p class="tt"> 26道风控流程严格把关</p>
+										<p class="jt"><img src="front/img/jt.png"/> </p>
+										<p class="num">03</p>
+									</div>
+								</div>
+							</li>
+							<li class="ab_item">
+								<div class="ab_item_cr">
+									<div class="ab_item_cr_one animated">
+										<h3><span>04</span><span>优质资产</span></h3>
+										<img src="front/img/tb(4).png" class="dfimg"/>
+									</div>
+									<div class="ab_item_cr_two animated">
+										<h4>优质资产</h4>
+										<p class="w43"><img src="front/img/tb_click(4).png"/></p>
+										<p class="line"><span></span></p>
+										<p class="tt"> 甄选各类优质资产项目安全有保障</p>
+										<p class="jt"><img src="front/img/jt.png"/> </p>
+										<p class="num">04</p>
+									</div>
+								</div>
+							</li>
+							<li class="ab_item">
+								<div class="ab_item_cr">
+									<div class="ab_item_cr_one animated">
+										<h3><span>05</span><span>100元起投</span></h3>
+										<img src="front/img/tb(5).png" class="dfimg"/>
+									</div>
+									<div class="ab_item_cr_two animated">
+										<h4>100元起投</h4>
+										<p class="w43"><img src="front/img/tb_click(5).png"/></p>
+										<p class="line"><span></span></p>
+										<p class="tt"> 灵活便捷门槛儿低，1-12个月期限全覆盖</p>
+										<p class="jt"><img src="front/img/jt.png" /> </p>
+										<p class="num">05</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--新手引导-->
+			<div class="ibox bg_soft">
+				<div class="w1200">
+					<div class="title">
+						<h3>新手引导<i></i></h3>
+					</div>
+					<div class="step">
+						<ul>
+							<li class="step_item">
+								<div class="step_item_bk">
+                                    <h3><span></span><span>guide</span><span></span><span>01</span></h3>
+									<p class="wt">理财项目到期之后如何回款？</p>
+									<p class="line"></p>
+                                    <p class="hd">您所投资项目的回款日是T+1个工作日到账。（如遇到周五和节假日延顺到上班后的第一个工作日到账）到期后还款到您的账户余额进行提现</p>
+								</div>
+							</li>
+							<li class="step_item">
+								<div class="step_item_bk">
+									<h3><span></span><span>guide</span><span></span><span>02</span></h3>
+									<p class="wt">投资后有什么证明或 合同吗？是否有法律 效益？</p>
+									<p class="line"></p>
+									<p class="hd">米e宝形成具有法律效力的电子合同，在米e宝平台投资成功后，就会形成这份电子合同，依据法律规定可见电子合同是我国法律明确认可的一种合同形式，所以效力可以等同于传统的纸质合同。</p>
+								</div>
+							</li>
+							<li class="step_item">
+								<div class="step_item_bk">
+									<h3><span></span><span>guide</span><span></span><span>03</span></h3>
+									<p class="wt">资金安全？</p>
+									<p class="line"></p>
+									<p class="hd">米e宝平台中所对接的是恒丰银行存管，您的资金操作的全部流程都直接由恒丰银行进行处理，平台不接触您的资金。保障您的资金安全。</p>
+								</div>
+							</li>
+							<li class="step_item">
+								<div class="step_item_bk">
+									<h3><span></span><span>guide</span><span></span><span>04</span></h3>
+									<p class="wt">项目到期后，资金回到哪里？收到还款后能再投资吗？</p>
+									<p class="line"></p>
+									<p class="hd">项目到期后，本金和收益将回到您的平台账户，可以选择提现或者再投资。我们建议投资人在收到还款后进行再次投资，确保您收益的最大化。</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="chak">
+						<a href="front/lead/lead.html" class="chak_btn"><span>查看引导</span></a>
+					</div>
+				</div>
+			</div>
+			<!--新手专享计划-->
+			<div class="ibox">
+				<div class="w1200">
+					<div class="title">
+						<h3>新手专享计划<i></i></h3>
+					</div>
+					<div class="plan">
+                        <div class="plan_box">
+                            <div class="plan_cr">
+                                <div class="plan_cr_tt">
+                                    <h3><span class="newbid-apr"></span>%</h3>
+									<p class="ttt">( 一个月即可享高收益 )</p>
+									<p class="line"><span></span></p>
+									<h4><i class="minmumAmount"></i>元<span>(起投)</span></h4>
+									<p class="ttt">每位新注册客户限投 <span>1</span> 次</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--米e宝推荐-->
+			<div class="ibox" style="background: #f7f8fa;">
+                <div class="w1200">
+					<div class="title">
+						<h3>米e宝推荐<i></i></h3>
+					</div>
+					<div class="tuij">
+						<ul class="clearfix recommend-total">
+							<script type="text/html" class="recommend">
+                                <li class="tj_item">
+									<div class="tj_item_box">
+										<h3 class="tj_item_date">{{bidName}}</h3>
+										<p class="tj_item_line"><span></span></p>
+										<p class="tj_item_profit">
+											<span>{{apr}}%</span><span>同类历史年化</span>
+										</p>
+										<p class="tj_item_time"><img src="front/img/time.png"/> {{borrowDuration}}</p>
+										<p class="tj_item_invest">
+											<span class="ll"><i class="recommendWidth"></i></span>
+											<span>已投{{bl}}%</span>
+											<span>剩余投资金额{{surplusAmount}}元</span>
+										</p>
+										<p class="tj_item_btn"><a class="buyButton"><span>立即抢购</span></a></p>
+									</div>
+                                </li>
+							</script>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--米e宝热门-->
+			<div class="ibox iboxrm">
+				<div class="w1200">
+					<div class="title">
+						<h3>米e宝热门<i></i></h3>
+					</div>
+					<div class="hot">
+						<ul class="clearfix" id="hotBid-total">
+							<script type="text/html" class="hotBid">
+								<li class="hot_item">
+									<div class="hot_item_box">
+										<p class="hot_item_date">{{bidName}}</p>
+										<p class="hot_item_profit"><span>同类历史年化</span><span>{{apr}}%</span></p>
+										<p class="hot_item_invest">
+											<span class="yyt"><i>已投{{bl}}%</i><i>剩余投资金额：{{surplusAmount}}元</i></span>
+											<span class="ll"><i class="hotBidWidth"></i></span>
+										</p>
+										<p class="hot_item_time"><img src="front/img/time.png"/> {{borrowDuration}} </p>
+										<p class="hot_item_btn"><a class="buy-buttonHot"><span>立即抢购</span></a></p>
+									</div>
+								</li>
+							</script>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--新闻公告-->
+			<div class="ibox bg_soft">
+				<div class="w1200">
+					<div class="title">
+                        <h3>新闻公告<i></i></h3>
+					</div>
+					<div class="news">
+						<div class="newslist">
+                           <div class="newslist_item active-newsbull">
+							  <a>新闻<i></i></a>
+						   </div>
+						   <div class="newslist_item">
+							   <a>公告<i></i></a>
+						   </div>
+						</div>
+						<div class="newscont shownewsBull">
+							<ul class="newsUl">
+								<script type="text/html" id="newsScript">
+                                    <li class="newscont_item newsclick">
+                                        <div class="newscont_item_box clearfix">
+											<div class="newscont_item_date fl">
+												<span>{{date}}</span>
+												<span>{{year}}</span>
+											</div>
+											<div class="newscont_item_img fl">
+												<img class="newsImg" src="" alt="显示图片"/>
+											</div>
+											<div class="newscont_item_tet fl">
+												<h3 class="p1"><span>{{title}}</span></h3>
+												<p>{{synopsis}}</p>
+											</div>
+                                    	</div>
+                                    </li>
+								</script>
+							</ul>
+						</div>
+						<div class="newscont showMyGg">
+							<ul class="bullUl">
+								<script type="text/html" id="bullScript">
+									<li class="newscont_item bullclick">
+										<div class="newscont_item_box clearfix">
+											<div class="newscont_item_date fl">
+												<span>{{date}}</span>
+												<span>{{year}}</span>
+											</div>
+											<div class="newscont_item_img fl">
+												<img class="bullImg" src="" alt="显示图片"/>
+											</div>
+											<div class="newscont_item_tet fl">
+												<h3 class="p1"><span>{{title}}</span></h3>
+												<p>{{synopsis}}</p>
+											</div>
+										</div>
+									</li>
+								</script>
+							</ul>
+						</div>
+					</div>
+					<div class="more">
+						<a class="more_btn"><span>查看更多</span></a>
+					</div>
+				</div>
+			</div>
+			<!--合作伙伴-->
+			<div class="ibox">
+				<div class="w1200">
+					<div class="title">
+						<h3>合作伙伴<i></i></h3>
+					</div>
+					<div class="partner">
+						<div class="slide">
+							<div class="slide_cr clearfix">
+								<div class="slide_item"><a target="_blank" href="https://www.baidu.com/"><img src="front/img/LOGO1.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.dl-bank.com/"><img src="front/img/LOGO2.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.hfbank.com.cn/"><img src="front/img/LOGO3.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.ips.com/"><img src="front/img/LOGO4.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.ccb.com/cn/home/indexv3.html"><img src="front/img/LOGO5.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="https://www.baidu.com/"><img src="front/img/LOGO1.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.dl-bank.com/"><img src="front/img/LOGO2.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.hfbank.com.cn/"><img src="front/img/LOGO3.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.ips.com/"><img src="front/img/LOGO4.png"/></a></div>
+								<div class="slide_item"><a target="_blank" href="http://www.ccb.com/cn/home/indexv3.html"><img src="front/img/LOGO5.png"/></a></div>
+							</div>
+						</div>
+						<div class="slide_btn slide_btn_ft"><i class="icon iconfont icon-jikediancanicon13-copy"></i></div>
+						<div class="slide_btn slide_btn_fr"><i class="icon iconfont icon-jiantou-copy-copy"></i></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--底部内容-->
+	   <div class="footer">
+
+	   </div>
+	</body>
+	<script src="front/js/js.js"></script>
+	<script src="front/js/judgeduration.js"></script>
+	<script src="front/js/layer/layer.js"></script>
+	<script src="front/js/main.js"></script>
+	<script src="front/js/subject.js"></script>
+	<script src="front/js/banner.js"></script>
+	<script src="front/js/toThousands.js"></script>
+	<script>
+        $(function(){
+            //平台数据展示
+            var counth=$('.count').offset().top;
+           	$(window).scroll(function () {
+				var st = $(this).scrollTop();
+			   if(st>counth){
+				   $('.count').addClass("active");
+				   $('.count').removeClass("countbt");
+				}else {
+					$('.count').removeClass("active");
+					$('.count').addClass("countbt");
+			   }
+            });
+           	//浮动层计算器
+			$("#jsq").unbind("click").on("click",function(){
+                $(".pop").css("display","block");
+                $(".pop_jsq").css("display","block");
+                //计算
+				$(".CZclick").unbind("click").on("click",function(){
+					var amount = $(".amount").val(),
+						apr = $(".apr").val(),
+						date = $(".date").val();
+					if(amount=="" || apr=="" || date==""){
+					    layer.alert("数据不能为空");
+					}else{
+					    var get = amount*apr*date/12/100;
+					    $("#money").text(get);
+					}
+                });
+                $(".TXclick").unbind("click").on("click",function(){
+                    $(".amount").val("");
+                    $(".apr").val("");
+                    $(".date").val("");
+                    $("#money").text("0.00");
+				})
+            })
+        })
+	</script>
+</html>

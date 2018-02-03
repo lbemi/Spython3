@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>我的账户</title>
+		<link rel="stylesheet" href="../css/common.css"/>
+		<link rel="stylesheet" href="../css/account.css">
+		<script src="../js/jquery-2.1.1.min.js"></script>
+		<script src="../js/echarts.min.js"></script>
+		<script src="../js/nav.js"></script>
+	</head>
+	<body>
+		<!--顶部-->
+		<div class="header">
+            <script>
+				$(function(){
+					$(".navbar .nav .nav_item").eq(5).addClass("active");
+
+				})
+			</script>
+		</div>
+        <!--导航-->
+        <div class="navbar">
+        </div>
+		<div class="h80"></div>
+        <!--我的账户-->
+		<div class="main">
+			<div class="w1200">
+				<!--左侧导航-->
+				<div class="sidebar">
+                    <div class="sidebar_hd">
+						<div class="hd_img"><img src="../img/touxiang.png" class="dfimg"/> </div>
+						<div class="hd_name">
+							<p><img src=""/> <span class="levelName"></span></p>
+						</div>
+					</div>
+					<div class="sidebar_nav">
+                         <ul>
+							 <li class="sidebar_nav_item active"><a class="wdzh">理财账户</a></li>
+							 <li class="sidebar_nav_item"><a class="jkzh">借款账户</a></li>
+							 <li class="sidebar_nav_item"><a class="tzjl">投资记录</a></li>
+							 <li class="sidebar_nav_item"><a class="jkjl">借款记录</a></li>
+							 <li class="sidebar_nav_item"><a class="zqzr">债权转让</a></li>
+							 <li class="sidebar_nav_item"><a class="jymx">资金流水</a></li>
+							 <li class="sidebar_nav_item"><a class="yhk">银行卡</a></li>
+							 <li class="sidebar_nav_item"><a class="zhsz">账户设置</a></li>
+							 <li class="sidebar_nav_item"><a class="share">分享推荐</a></li>
+							 <li class="sidebar_nav_item"><a class="xxgl">消息管理</a></li>
+							 <!--<li class="sidebar_nav_item"><a class="wdhb">我的红包</a></li>-->
+						 </ul>
+					</div>
+				</div>
+				<!--主体内容-->
+				<div class="count">
+                     <div class="title"><h3>理财账户</h3></div>
+					 <div class="census">
+						 <div class="number">
+							 <ul class="number_ul">
+								 <li class="number_ul_item">
+									 <p class="totalAsset"></p>
+									 <p>总资产（元）</p>
+								 </li>
+								 <li class="number_ul_item">
+									 <p  class="ljsy"></p>
+									 <p>累计收益（元）<span class="lookDetails">查看详情</span></p>
+								 </li>
+								 <li class="number_ul_item">
+									 <p  class="zrsy"></p>
+									 <p>昨日收益（元）</p>
+								 </li>
+								 <li class="number_ul_item">
+									 <p class="kyye"></p>
+									 <p>可用余额（元）</p>
+								 </li>
+							 </ul>
+							 <div class="mm_btn">
+								 <a class="btn CZclick"><span class="bk"></span><span class="cr">充值</span></a>
+								 <a class="btn TXclick"><span class="bk"></span><span class="cr">提现</span></a>
+							 </div>
+						 </div>
+						 <!--图表统计-->
+						 <div class="pies">
+							 <div class="pies_tit">
+								 总资产统计：
+							 </div>
+							<div class="pies_cr" id="bar">
+							</div>
+						 </div>
+						 <!--表格统计-->
+						 <div class="tabl">
+							 <table>
+								 <thead>
+									 <tr>
+										 <td>标的到期时间</td>
+										 <td>标的名称</td>
+										 <td>投资金额</td>
+										 <td>预期收益</td>
+									 </tr>
+								 </thead>
+								 <tbody class="innerList">
+								 	 <script type="text/html" id="myaccount">
+                                         <tr>
+											 <td>{{endDate}}</td>
+											 <td>{{bidName}}</td>
+											 <td>{{investAmount}}元</td>
+											 <td>{{incomeAmount}}元</td>
+                                         </tr>
+									 </script>
+								 </tbody>
+							 </table>
+							 <div class='tcdPageCode pgnum'></div>
+							 <div class="showImg1">
+								 <img src="../img/zwzjdqbd.png">
+							 </div>
+						 </div>
+						 <!--产品-->
+						 <div class="tzlc">
+							 <div class="tzlc_tit">投资理财</div>
+							 <div class="tzlc_cr inner_biaodi">
+								 <script type="text/html" id="tzlc_biaodi">
+									 <div class="tz_item">
+										 <div class="tz_item_tit">{{bidName}}</div>
+										 <div class="tz_item_tet">
+											 <div class="fl">
+												 <p class="mm">{{apr}}</p>
+												 <p class="tt">同类历史年化</p>
+											 </div>
+											 <div>
+												 <p class="yy">{{borrowDuration}}</p>
+												 <p class="tt">投资期限</p>
+											 </div>
+										 </div>
+									 </div>
+								 </script>
+							 </div>
+						 </div>
+					 </div>
+				</div>
+			</div>
+		</div>
+		<!--底部内容-->
+	   <div class="footer"></div>
+	</body>
+	<script src="../js/js.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/jquery.page.js"></script>
+	<script src="../js/wdzhrequest.js"></script>
+	<script src="../js/toThousands.js"></script>
+	<script src="../js/judgeLevel.js"></script>
+	<script src="../js/clickHy.js"></script>
+	<script src="../js/judgeduration.js"></script>
+	<script src="../js/wdzhJump.js"></script>
+</html>
