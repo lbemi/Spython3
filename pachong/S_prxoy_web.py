@@ -15,6 +15,10 @@ import urllib.error
 import threading
 import requests
 import random,datetime
+import http.cookiejar
+import ssl
+c =  http.cookiejar.CookieJar()
+ssl._create_default_https_context = ssl._create_stdlib_context
 
 # url = 'http://www.xicidaili.com/nn/'
 # header = ("User-Agent",
@@ -97,7 +101,6 @@ def get_UserAgent():
         "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
         "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
         "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
         "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
@@ -114,33 +117,41 @@ def get_UserAgent():
     headers = ("User-Agent", UserAgent)
     return headers
 
+def open_url(url):
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(c))
+    headers  = get_UserAgent()
+    opener.add_handler =  [headers]
+    urllib.request.install_opener(opener)
+    html = urllib.request.urlopen(url).read()
+
+    return  html
 def check_IP(targeturl, ip):
     print(">>>Check_Ip<<<<")
     headers = get_UserAgent()
     proxy =urllib.request.ProxyHandler({"http":ip,"https":ip})
-    # try:
-    opener.addheaders = [headers]
-    opener = urllib.request.build_opener(urllib.request.HTTPHandler,proxy)
+    try:
+        opener.addheaders = [headers]
+        opener = urllib.request.build_opener(urllib.request.HTTPHandler,proxy)
 
-    urllib.request.install_opener(opener)
-    print("aaaaaaaaaaaaaaaaaaaa")
-    res_code = urllib.request.urlopen(targeturl, timeout=5)
-    print(res_code.getcode())
-    # res_code = requests.get(url=targeturl, headers=headers, proxies=proxy, timeout=5).status_code
-    print(res_code)
-    if res_code == 200:
-        return True
-    else:
+        urllib.request.install_opener(opener)
+        print("aaaaaaaaaaaaaaaaaaaa")
+        res_code = urllib.request.urlopen(targeturl, timeout=5)
+        print(res_code.getcode())
+        # res_code = requests.get(url=targeturl, headers=headers, proxies=proxy, timeout=5).status_code
+        print(res_code)
+        if res_code == 200:
+            return True
+        else:
+            return False
+    except urllib.error.URLError as e:
+        if hasattr(e,"code"):
+            print(e.code)
+        if hasattr(e,"reason"):
+            print(e.reason)
         return False
-    # except urllib.error.URLError as e:
-    #     if hasattr(e,"code"):
-    #         print(e.code)
-    #     if hasattr(e,"reason"):
-    #         print(e.reason)
-    #     return False
-    # except Exception as e:
-    #     print("Check_ip---Error--->" + str(e))
-    #     return False
+    except Exception as e:
+        print("Check_ip---Error--->" + str(e))
+        return False
     print("<<<<Check_Ip>>>>")
 def find_ip(type, pagenum,  targeturl, path):
     print(">>>find_ip<<<")
@@ -159,7 +170,16 @@ def find_ip(type, pagenum,  targeturl, path):
     # print(headers)
     # html = requests.get(url=url, headers=headers, timeout=5).text
     print('aaaaaa')
-    html = urllib.request.urlopen(url, timeout=5).read()
+    try:
+        html = urllib.request.urlopen(url, timeout=5).read()
+    except urllib.error.HTTPError as e:
+        if hasattr(e, "code"):
+            print(e.code)
+        if hasattr(e, "reason"):
+            print(e.reason)
+    except Exception as e:
+        print("Check_ip---Error--->" + str(e))
+
     print(html.decode('utf-8'))
     soup = BeautifulSoup(str(html), 'lxml')
     # print(soup)
