@@ -23,7 +23,7 @@ req =  urllib.request.Request(url=url,data=postdata)
 res = opener.open(req).read()
 with open("./home.html","wb") as f:
     f.write(res)
-data = urllib.request.urlopen("https://www.m-ebaby.com/front/wdzh/My_account.html").read()
+data = urllib.request.urlopen("http://www.xicidaili.com/nt/1").read()
 with open("./index2.html","wb") as s:
     s.write(data)
 
