@@ -180,7 +180,7 @@ def find_ip(type, pagenum,  targeturl, path):
     except Exception as e:
         print("Check_ip---Error--->" + str(e))
 
-    print(html.decode('utf-8'))
+    # print(html.decode('utf-8'))
     soup = BeautifulSoup(str(html), 'lxml')
     # print(soup)
     all = soup.find_all('tr', class_='odd')
