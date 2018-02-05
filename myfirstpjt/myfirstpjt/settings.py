@@ -8,7 +8,6 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
 BOT_NAME = 'myfirstpjt'
 
 SPIDER_MODULES = ['myfirstpjt.spiders']
@@ -20,6 +19,9 @@ IPPOOL = [
     {"ipaddr":"219.223.251.173:3128"},
     {"ipaddr":"113.200.214.164:9999"}
 ]
+with open('./ip.txt','r') as f:
+    ip = f.readline()
+    IPPOOL.append({"ipaddr":ip})
 UAPOOL = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/58.0",
@@ -78,9 +80,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'myfirstpjt.pipelines.MyfirstpjtPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'myfirstpjt.pipelines.MyfirstpjtPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

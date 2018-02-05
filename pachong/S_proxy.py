@@ -73,7 +73,7 @@ def  check_ip(targeturl, ip):
             print(e.reason)
         return False
     except Exception as e:
-        print("Check_ip---Er    ror--->" + str(e))
+        print("Check_ip---Error--->" + str(e))
         return False
 
 def find_ip(type, pagenum, targeturl, path):

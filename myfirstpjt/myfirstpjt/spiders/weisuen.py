@@ -1,6 +1,5 @@
 import scrapy
-
-from workspace.myfirstpjt import MyfirstpjtItem
+from myfirstpjt.items import MyfirstpjtItem
 
 uu= 'http://blog.sina.com.cn/weiweihappy321'
 class WeisuenSpider(scrapy.Spider):

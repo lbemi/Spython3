@@ -11,7 +11,7 @@ from scrapy import signals
 from scrapy.contrib.downloadermiddleware.httpproxy import HttpProxyMiddleware
 from scrapy.contrib.downloadermiddleware.useragent import UserAgentMiddleware
 
-from workspace.myfirstpjt import IPPOOL, UAPOOL
+from myfirstpjt.settings import IPPOOL, UAPOOL
 
 
 class IPPOOLS(HttpProxyMiddleware):
