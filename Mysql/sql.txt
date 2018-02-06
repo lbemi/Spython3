@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS `students`;
+CREATE TABLE `students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(10) NOT NULL,
+  `sex` varchar(50) NOT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `phone` INT(11),
+  `age` int(11) DEFAULT NULL
+)  DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not EXISTS scores(
+id int auto_increment PRIMARY KEY,
+s_id int NOT null,
+grade FLOAT NOT NULL
+);
+
+
+INSERT into students (name, sex, address,phone, age)
+VALUES ('','张三','中国江苏','15052610862','10'),
+('','李四','中国杭州','15052610662','11'),
+('','王伟','中国徐州','15558140030','12')
