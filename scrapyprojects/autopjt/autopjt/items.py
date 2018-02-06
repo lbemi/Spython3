@@ -11,4 +11,8 @@ import scrapy
 class AutopjtItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    # pass
+    name = scrapy.Field()
+    price = scrapy.Field()
+    link = scrapy.Field()
+    comnum = scrapy.Field()
