@@ -12,5 +12,5 @@ class MysqlpjtItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     # pass
-    title = scrapy.Field()
-    keywd = scrapy.Field()
+    name = scrapy.Field()
+    keywd =  scrapy.Field()
